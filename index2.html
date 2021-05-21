@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+   <div>
+    <button v-on:click="handleClick">点击</button>
+   </div>
+    <div v-bind:style="{ display: switchDisplay }">
+      <img src="./img/lifecycle.png" alt="" v-if="isShow">
+    </div>
+  </div>
+  <script>
+    Vue.component('todo-item', {
+      props: ['todo'],
+      template: '<li>{{ todo.text }}</li>'
+    })
+    var app = new Vue({
+      el: '#app',
+      data: {
+        isShow: true,
+        switchDisplay: 'flex',
+        rendered: false,
+      },
+      beforeCeate: function () {
+        console.log("beforeCeate :", this.rendered);    // undefined 
+      },
+      created: function () {
+        console.log("created :", this.$el);//undefined
+        console.log("created :", this.rendered);  // false
+      },
+      beforeMount: function () {
+        console.log("beforeMount :",this.$el); //undefined
+      },
+      mounted: function () {
+        console.log("mounted :",this.$el);   // undefined 
+      },
+      beforeDestroy: function () {
+        console.log("beforeDestroy :",this.$el);
+        console.log("beforeDestroy :",this.rendered); 
+      },
+      destroyed: function () {
+        console.log("destroyed :",this.$el);
+        console.log("destroyed :",this.rendered);
+      },
+      methods: {
+        handleClick:function (event) {
+          this.isShow = !this.isShow;
+          this.switchDisplay = this.switchDisplay === 'none'? 'flex': 'none';
+        }
+      }
+    })
+  </script>
+</body>
+</html>

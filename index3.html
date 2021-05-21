@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <div id="app-2">
+      <span v-bind:title="message">
+        鼠标悬停几秒钟查看此处动态绑定的提示信息！
+      </span>
+    </div>
+    <todo-child />
+
+  </div>
+  <script>
+    var Child = {template: '<h1>自定义局部组件!</h1>'}
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: '页面加载于 ' + new Date().toLocaleString()
+      },
+      components: {
+        todoChild : Child
+      }
+    })
+  </script>
+</body>
+</html>
