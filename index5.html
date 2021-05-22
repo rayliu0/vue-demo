@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My first Vue app</title>
+  <title>组件间通信</title>
   <script src="https://unpkg.com/vue"></script>
 </head>
 <style>
@@ -19,26 +19,14 @@
     <child message="prop 是父组件用来传递数据的一个自定义属性"></child>
   </div>
   <script>
-   const NotFound = { template: '<p>Page not found</p>' }
-    const Home = { template: '<p>home page</p>' }
-    const About = { template: '<p>about page</p>' }
-
-    const routes = {
-      '/': Home,
-      '/about': About
-    }
-
+    Vue.component('child', {
+      // 声明 props
+      props: ['message'],
+      // 同样也可以在 vm 实例中像 "this.message" 这样使用
+      template: '<span>{{ message }}</span>'
+    })
     new Vue({
-      el: '#app',
-      data: {
-        currentRoute: window.location.pathname
-      },
-      computed: {
-        ViewComponent () {
-          return routes[this.currentRoute] || NotFound
-        }
-      },
-      render (h) { return h(this.ViewComponent) }
+      el: '#app'
     })
 
   </script>

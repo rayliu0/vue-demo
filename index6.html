@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mixin</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<style>
+  #app-2{
+    margin-bottom: 20px;
+  }
+</style>
+<body>
+  <div id="app">
+    <h1>Mixin 混入</h1>
+    <p>{{message}}</p>
+    <p>{{foo}}</p>
+    <p>{{bar}}</p>
+  </div>
+  <script>
+    Vue.mixin({
+      created: function () {
+        let myOption = this.$options.myOption
+        if (myOption) {
+          console.log(myOption)
+        }
+      }
+    });
+   let mixin = {
+      data: function () {
+        return {
+          message: 'hello world!',
+          foo: 'I\'m a footer'
+        }
+      },
+      mounted: function () {
+        console.log('混入对象的钩子被调用',  this.message)
+        this.fun() // => "fun"
+      },
+      methods: {
+        fun: function () {
+          console.log('funoooo')
+        },
+        conflicting: function () {
+          console.log('from mixin')
+        }
+      }
+    };
+
+    new Vue({
+      el: '#app',
+      mixins: [mixin],
+      myOption: '混入也可以进行全局注册。使用时格外小心！一旦使用全局混入，它将影响每一个之后创建的 Vue 实例。使用恰当时，这可以用来为自定义选项注入处理逻辑。',
+      data: function () {
+        return {
+          message: 'goodbye',
+          bar: 'barbarbar'
+        }
+      },
+      mounted: function () {
+        console.log('组件钩子被调用',  this.message)
+        this.barr() // => "bar"
+        this.conflicting() // => "from self"
+      },
+      methods: {
+        barr: function () {
+          console.log('barrr')
+        },
+        conflicting: function () {
+          console.log('from self')
+        }
+      }
+    });
+  </script>
+</body>
+</html>

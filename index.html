@@ -1,48 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My first Vue app</title>
+  <title>基本结构</title>
   <script src="https://unpkg.com/vue"></script>
+  <style>
+    .text-danger {
+      color: red;
+    }
+  </style>
 </head>
 <body>
   <div id="app">
-    <div id="app-2">
-      <span v-bind:title="message">
-        鼠标悬停几秒钟查看此处动态绑定的提示信息！
-      </span>
-    </div>
-    <todo-item
-      v-for="item in groceryList"
-      v-bind:todo="item"
-      v-bind:key="item.id"
-    ></todo-item>
+    <h3>基本结构</h3>
+    <div
+      class="static"
+      v-bind:class="{ active: isActive, 'text-danger': hasError }"
+    >当有如下模板</div>
+    <p><button v-on:click="greet">Greet</button></p>
 
+    <div id="example">
+      <p>Original message: "{{ message }}"</p>
+      <p>Computed reversed message: "{{ reversedMessage }}"</p>
+    </div>
   </div>
   <script>
-    Vue.component('todo-item', {
-      props: ['todo'],
-      template: '<li>{{ todo.text }}</li>'
-    })
     var app = new Vue({
       el: '#app',
       data: {
-        message: '页面加载于 ' + new Date().toLocaleString(),
-        groceryList: [
-          { id: 0, text: '蔬菜' },
-          { id: 1, text: '奶酪' },
-          { id: 2, text: '随便其它什么人吃的东西' }
-        ]
+        isActive: true,
+        hasError: false,
+        name: 'Vue.js',
+        firstName: 'Foo',
+        lastName: 'Bar',
+        fullName: 'Foo Bar',
+        message: 'Hello'
+      },
+      watch: {
+        firstName: function (val) {
+          this.fullName = val + ' ' + this.lastName
+        },
+        lastName: function (val) {
+          this.fullName = this.firstName + ' ' + val
+        }
+      },
+      computed: {
+        // 计算属性的 getter
+        reversedMessage: function () {
+          // `this` 指向 vm 实例
+          return this.message.split('').reverse().join('')
+        }
+      },
+      methods: {
+        greet: function (event) {
+          this.hasError = true;
+          // `this` 在方法里指向当前 Vue 实例
+          alert('Hello ' + this.name + '!')
+          // `event` 是原生 DOM 事件
+          if (event) {
+            alert(event.target.tagName)
+          }
+        }
       }
     })
-    console.log(`~~~~~~`, app.message)
-    class func {
-      constructor({data}) {
-        this.data = data;
-      }
-    }
-
-    var f = new func({data: {title: 'hahah', name: 'test'}})
-    console.log(`********`, f.data)
   </script>
 </body>
 </html>
