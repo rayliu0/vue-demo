@@ -22,6 +22,11 @@
       <p>Original message: "{{ message }}"</p>
       <p>Computed reversed message: "{{ reversedMessage }}"</p>
     </div>
+
+    <div id="app-3">
+      <p v-if="seen">现在你看到我了</p>
+      <p v-show="seen">现在你看到我了</p>
+    </div>
   </div>
   <script>
     var app = new Vue({
@@ -33,7 +38,8 @@
         firstName: 'Foo',
         lastName: 'Bar',
         fullName: 'Foo Bar',
-        message: 'Hello'
+        message: 'Hello',
+        seen: false
       },
       watch: {
         firstName: function (val) {
